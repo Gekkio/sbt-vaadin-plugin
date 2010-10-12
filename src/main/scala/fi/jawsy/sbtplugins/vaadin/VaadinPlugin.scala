@@ -4,7 +4,6 @@ import sbt._
 
 object VaadinPlugin {
 
-  val VaadinCleanDescription = "Deletes all generated Vaadin files"
   val VaadinCompileDescription = "Compiles a Vaadin widget set"
 
 }
@@ -23,20 +22,17 @@ trait VaadinPlugin extends DefaultWebProject {
   def vaadinCompilerOutputPath = outputPath / "vaadin"
   def autorunVaadinCompile = !vaadinCompilerOutputPath.exists
 
-  def vaadinCompileAction = task {
+  lazy val vaadinCompile = vaadinCompileAction
+  def vaadinCompileAction = vaadinCompileTask.dependsOn(copyResources) describedAs VaadinCompileDescription
+  def vaadinCompileTask = task {
     import Process._
     val cp = vaadinCompilerClasspath.getPaths.mkString(":")
     val parts = "java" :: vaadinCompilerJvmArgs ::: List("-classpath", cp, vaadinCompilerClass) ::: vaadinCompilerArgs
     parts.mkString(" ") ! log
     None
-  } dependsOn(copyResources) describedAs VaadinCompileDescription
-
-  lazy val vaadinCompile = vaadinCompileAction
-
-  override def prepareWebappAction = {
-    if (autorunVaadinCompile) super.prepareWebappAction dependsOn(vaadinCompileAction)
-    else super.prepareWebappAction
   }
+
+  override def prepareWebappAction = super.prepareWebappAction dependsOn(vaadinCompile)
 
   override def extraWebappFiles = super.extraWebappFiles +++ descendents(vaadinCompilerOutputPath ##, "*")
 
