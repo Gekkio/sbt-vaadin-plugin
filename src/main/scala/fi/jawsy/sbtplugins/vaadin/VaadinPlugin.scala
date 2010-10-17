@@ -22,17 +22,26 @@ trait VaadinPlugin extends DefaultWebProject {
   def vaadinCompilerOutputPath = outputPath / "vaadin"
   def autorunVaadinCompile = !vaadinCompilerOutputPath.exists
 
-  lazy val vaadinCompile = vaadinCompileAction
-  def vaadinCompileAction = vaadinCompileTask.dependsOn(copyResources) describedAs VaadinCompileDescription
-  def vaadinCompileTask = task {
+  private def compileVaadinWidgetSet {
     import Process._
     val cp = vaadinCompilerClasspath.getPaths.mkString(":")
     val parts = "java" :: vaadinCompilerJvmArgs ::: List("-classpath", cp, vaadinCompilerClass) ::: vaadinCompilerArgs
     parts.mkString(" ") ! log
+  }
+
+  lazy val vaadinCompile = vaadinCompileAction
+  def vaadinCompileAction = vaadinCompileTask.dependsOn(copyResources) describedAs VaadinCompileDescription
+  def vaadinCompileTask = task {
+    compileVaadinWidgetSet
     None
   }
 
-  override def prepareWebappAction = super.prepareWebappAction dependsOn(vaadinCompile)
+  def autoVaadinCompileTask = task {
+    if (autorunVaadinCompile) compileVaadinWidgetSet
+    None
+  } describedAs VaadinCompileDescription
+
+  override def prepareWebappAction = super.prepareWebappAction dependsOn(autoVaadinCompileTask)
 
   override def extraWebappFiles = super.extraWebappFiles +++ descendents(vaadinCompilerOutputPath ##, "*")
 
