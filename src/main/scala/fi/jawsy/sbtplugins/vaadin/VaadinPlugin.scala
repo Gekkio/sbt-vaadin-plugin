@@ -24,7 +24,7 @@ trait VaadinPlugin extends DefaultWebProject {
 
   private def compileVaadinWidgetSet {
     import Process._
-    val cp = vaadinCompilerClasspath.getPaths.mkString(":")
+    val cp = vaadinCompilerClasspath.getPaths.mkString(System.getProperty("path.separator"))
     val parts = "java" :: vaadinCompilerJvmArgs ::: List("-classpath", cp, vaadinCompilerClass) ::: vaadinCompilerArgs
     parts.mkString(" ") ! log
   }
