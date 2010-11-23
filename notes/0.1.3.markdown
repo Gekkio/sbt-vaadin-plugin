@@ -1,0 +1,5 @@
+Bug fix release.
+
+Bug fixes:
+
++ Fixed widget set compilation under Windows (github issue #1)

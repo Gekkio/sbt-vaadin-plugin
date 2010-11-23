@@ -1,0 +1,5 @@
+Initial release.
+
+Features:
+
++ Basic Vaadin widget set compilation using forked Java process

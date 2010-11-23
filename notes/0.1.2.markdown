@@ -1,0 +1,5 @@
+Bug fix release.
+
+Bug fixes:
+
++ Vaadin compilation autorun should finally work as intended

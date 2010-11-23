@@ -1,0 +1,5 @@
+Bug fix release with internal refactoring.
+
+Bug fixes:
+
++ Attempted fix for Vaadin compilation autorun
