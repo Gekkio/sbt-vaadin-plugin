@@ -64,6 +64,8 @@ Add your widget set init parameter to web.xml:
 
 The plugin compiles the widget set automatically if it hasn't been compiled before, so you can now run the webapp with jetty-run or package it with package.
 
+**If you add/remove/upgrade any addons or upgrade to a new version of Vaadin, you must recompile the widgetset by running the `vaadin-compile` action**
+
 ### How do I ...?
 
 #### Disable vaadin widget set compilation
