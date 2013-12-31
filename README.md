@@ -1,6 +1,8 @@
 sbt-vaadin-plugin
 =================
 
+## *Warning: This plugin is unmaintained and deprecated, and the Maven repository mentioned in this README doesn't exist anymore*
+
 ## Introduction
 
 sbt-vaadin-plugin is a plugin for [Simple Build Tool](http://code.google.com/p/simple-build-tool/) that generates widget sets for for [Vaadin](http://www.vaadin.com). If you intend to use any third party widgets not included in the core Vaadin distribution, you'll ned widget set compilation.
